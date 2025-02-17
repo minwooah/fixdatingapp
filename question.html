@@ -3,94 +3,111 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Help Us Improve Dating Apps</title>
+  <title>Dating App Survey</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f8f9fa;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+      background: #f2f2f2;
+      padding: 20px;
     }
     .container {
-      max-width: 600px;
-      width: 90%;
+      max-width: 500px;
+      margin: 0 auto;
       background: #fff;
-      padding: 2rem;
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    h1 {
-      text-align: center;
-      color: #333;
-      margin-bottom: 0.5rem;
+    .step {
+      display: none;
     }
-    p {
-      text-align: center;
-      color: #666;
-      margin-bottom: 1.5rem;
-    }
-    form label {
+    .step.active {
       display: block;
-      margin: 1rem 0 0.5rem;
-      color: #333;
     }
-    form input[type="text"],
-    form input[type="email"],
-    form textarea {
-      width: 100%;
-      padding: 0.75rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 1rem;
+    .button-container {
+      margin-top: 20px;
     }
-    form textarea {
-      resize: vertical;
-    }
-    form button {
-      display: block;
-      width: 100%;
-      padding: 0.75rem;
-      background-color: #007bff;
-      color: #fff;
+    button {
+      padding: 10px 15px;
       border: none;
       border-radius: 4px;
-      font-size: 1rem;
       cursor: pointer;
-      margin-top: 1.5rem;
+      margin-right: 10px;
+      background: #007bff;
+      color: white;
     }
-    form button:hover {
-      background-color: #0056b3;
+    button:hover {
+      background: #0056b3;
+    }
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Help Us Improve Dating Apps</h1>
-    <p>
-      We want to hear your honest opinions about current dating apps and how they could be improved.
-    </p>
-    <form action="YOUR_FORM_ENDPOINT" method="post">
-      <label for="name">Your Name (Optional)</label>
-      <input type="text" id="name" name="name" placeholder="Enter your name" />
+    <form id="surveyForm" action="https://formspree.io/f/your-form-id" method="POST">
+      <!-- Step 1: Ask the first question -->
+      <div class="step active">
+        <h2>Question 1</h2>
+        <p>What dating apps do you currently use?</p>
+        <input type="text" name="datingApps" required placeholder="e.g. Tinder, Bumble" />
+        <div class="button-container">
+          <button type="button" class="nextBtn">Next</button>
+        </div>
+      </div>
 
-      <label for="email">Your Email (Optional)</label>
-      <input type="email" id="email" name="email" placeholder="Enter your email" />
+      <!-- Step 2: Ask the second question -->
+      <div class="step">
+        <h2>Question 2</h2>
+        <p>What do you like about these apps?</p>
+        <textarea name="likes" required placeholder="Your answer"></textarea>
+        <div class="button-container">
+          <button type="button" class="prevBtn">Previous</button>
+          <button type="button" class="nextBtn">Next</button>
+        </div>
+      </div>
 
-      <label for="apps">Which dating apps do you currently use?</label>
-      <input type="text" id="apps" name="apps" placeholder="e.g. Tinder, Bumble" />
-
-      <label for="likes">What do you like about these apps?</label>
-      <textarea id="likes" name="likes" rows="4" placeholder="Share what you like about them"></textarea>
-
-      <label for="improvements">What improvements would you suggest?</label>
-      <textarea id="improvements" name="improvements" rows="4" placeholder="Your suggestions for improvement"></textarea>
-
-      <button type="submit">Submit Feedback</button>
+      <!-- Step 3: Ask the third question -->
+      <div class="step">
+        <h2>Question 3</h2>
+        <p>What improvements would you suggest?</p>
+        <textarea name="improvements" required placeholder="Your suggestions"></textarea>
+        <div class="button-container">
+          <button type="button" class="prevBtn">Previous</button>
+          <button type="submit">Submit</button>
+        </div>
+      </div>
     </form>
   </div>
-</body>
-</html>
+
+  <script>
+    // Multi-step form functionality
+    (function() {
+      let currentStep = 0;
+      const steps = document.querySelectorAll('.step');
+      const nextButtons = document.querySelectorAll('.nextBtn');
+      const prevButtons = document.querySelectorAll('.prevBtn');
+
+      function showStep(step) {
+        steps.forEach((s, index) => {
+          s.classList.toggle('active', index === step);
+        });
+      }
+
+      // Next button event listener
+      nextButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          if (currentStep < steps.length - 1) {
+            currentStep++;
+            showStep(currentStep);
+          }
+        });
+      });
+
+      
